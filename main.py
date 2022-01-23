@@ -83,6 +83,13 @@ def append(content):
     sheet.append_row(content)
 
 
+########
+# Loop #
+########
+
+INTERVAL = 60 * 5
+
 while True:
+    # TODO 'sleep' during closed hours (don't log)
     append([str(datetime.datetime.now()), getCapacity()])
-    time.sleep(300 - time.time() % 300)
+    time.sleep(INTERVAL - time.time() % INTERVAL)
