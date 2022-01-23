@@ -7,6 +7,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver import Firefox
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+
+#from selenium.webdriver.chrome.options import Options
+#from selenium.webdriver.chrome.service import Service
+#from webdriver_manager.chrome import ChromeDriverManager
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
@@ -18,8 +26,22 @@ from oauth2client.service_account import ServiceAccountCredentials
 URL = "https://safe.density.io/#/displays/dsp_956223069054042646?token=shr_o69HxjQ0BYrY2FPD9HxdirhJYcFDCeRolEd744Uj88e"
 TIMEOUT = 10
 
-# driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
-driver = webdriver.Firefox()
+cap = DesiredCapabilities().FIREFOX
+cap["marionette"] = True
+
+#options = webdriver.FirefoxOptions()
+#options.log.level = "trace"
+#options.headless = True
+
+#fp = webdriver.FirefoxProfile(r'/home/m/ma/maxv/bears/geckodriver')
+#driver = webdriver.Firefox(executable_path=fp)
+driver = webdriver.Firefox(executable_path=r'./geckodriver', capabilities=cap)
+#driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=options)
+#driver = webdriver.Firefox()
+
+#options = Options()
+#options.add_argument("start-maximized")
+#driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 
 def getCapacity() -> int:
@@ -57,7 +79,7 @@ sheet = client.open_by_key(
 
 
 def append(content):
-    print(f"Adding entry: {content}")
+    # print(f"Adding entry: {content}")
     sheet.append_row(content)
 
 
