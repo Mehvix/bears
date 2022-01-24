@@ -45,9 +45,8 @@ driver = webdriver.Firefox(executable_path=r'./geckodriver', capabilities=cap)
 
 
 def getCapacity() -> int:
-    driver.get(URL)
-
     try:
+        driver.get(URL)
         element_present = EC.presence_of_element_located((By.TAG_NAME, 'span'))
         WebDriverWait(driver, TIMEOUT).until(element_present)
         value = driver.find_element_by_css_selector(
@@ -56,8 +55,8 @@ def getCapacity() -> int:
         # print(value)
         value = int(value.split("%")[0])
         return value
-    except TimeoutException:
-        print("Timed out waiting for page to load!")
+    except Exception as e:
+        print(f"Error: {e}")
         return -1
 
 
@@ -91,5 +90,7 @@ INTERVAL = 60 * 5
 
 while True:
     # TODO 'sleep' during closed hours (don't log)
-    append([str(datetime.datetime.now()), getCapacity()])
+    cap = getCapacity()
+    if cap > 0:
+        append([str(datetime.datetime.now()), cap])
     time.sleep(INTERVAL - time.time() % INTERVAL)
