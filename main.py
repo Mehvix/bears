@@ -1,3 +1,5 @@
+#!./venv/bin/python
+
 import datetime
 import time
 
@@ -88,9 +90,9 @@ def append(content):
 
 INTERVAL = 60 * 5
 
-while True:
-    # TODO 'sleep' during closed hours (don't log)
-    cap = getCapacity()
-    if cap > 0:
-        append([str(datetime.datetime.now()), cap])
-    time.sleep(INTERVAL - time.time() % INTERVAL)
+# while True:
+# TODO 'sleep' during closed hours (don't log)
+cap = getCapacity()
+if cap > 0:
+    append([str(datetime.datetime.now()), cap])
+# time.sleep(INTERVAL - time.time() % INTERVAL)
